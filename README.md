@@ -1,8 +1,8 @@
 # RideShare
 
-You can create database with Running "Migration.bat" that is under "Domain" Folder. Alternativly you can executre "RideShare_EyupCan_Db.sql" 
+You can create database with Running <b>"Migration.bat"</b> that is under <b> "Domain" </b> Folder. Alternativly you can executre <b>"RideShare_EyupCan_Db.sql" </b>
 
-You can find descriptions and sample usage in Swagger. Also RideShare.postman_collection.json  contains sample service call
+You can find descriptions to use program and sample usage in <b>Swagger </b>. Also <b>RideShare.postman_collection.json</b>  contains sample service call
  
 In the below I shared basic city plan. I designed the algorithm  according to this plan.
 
