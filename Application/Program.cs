@@ -6,7 +6,7 @@ using Domain.Repository;
 using Domain.Repository.Interfaces;
 using Domain.Repository.Repos;
 using Microsoft.EntityFrameworkCore;
-
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DbConnectionString");
@@ -16,8 +16,13 @@ builder.Services.AddDbContext<RideShareDbContext>(options => options.UseSqlServe
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory,
+        $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
+});
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 #region Repo Registiration
 builder.Services.AddScoped<IPassangerRepository, PassengerRepository>();
 builder.Services.AddScoped<ITripDetailRepository, TripDetailRepository>();
