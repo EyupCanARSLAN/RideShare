@@ -1,4 +1,5 @@
 ﻿using Application.Models.RestModels.Request;
+using AutoMapper;
 using Business.Interfaces;
 using Business.Models.FindTripService.RequestModels;
 using Business.Models.FindTripService.ResponseModels;
@@ -22,70 +23,67 @@ namespace URLShortening.Controllers
         private readonly ITripCreatorService _tripCreatorService;
         private readonly ITripStatusService _tripStatusService;
         private readonly ITripReservationService _tripreservationService;
-        public RideShareController(IFindTripService findTripSerive, ITripCreatorService tripCreatorService, ITripStatusService tripStatusService, ITripReservationService tripReservationService)
+        private readonly IMapper _mapper;
+ 
+        public RideShareController(IFindTripService findTripSerive, ITripCreatorService tripCreatorService, ITripStatusService tripStatusService, ITripReservationService tripReservationService, IMapper mapper)
         {
             _findTripSerive = findTripSerive;
             _tripCreatorService = tripCreatorService;
             _tripStatusService = tripStatusService;
             _tripreservationService = tripReservationService;
+            _mapper = mapper;
         }
 
-
         /// <summary>
-        /// 
+        /// Create trip request
         /// </summary>
-        /// <param name="DriverName">Can</param>
+        /// <param name="createTripRestRequetModel"></param>
         /// <returns></returns>
+  
         [HttpPost("CreateTripRequest")]
         public ServiceResult<TripCreatorServiceResponseModel> CreateTripRequest(CreateTripRestRequetModel createTripRestRequetModel)
         {
-            TripCreatorServiceRequestModel tripCreatorServiceRequestModel = new TripCreatorServiceRequestModel();
-            tripCreatorServiceRequestModel.DriverName = createTripRestRequetModel.DriverName;
-            tripCreatorServiceRequestModel.Routate = createTripRestRequetModel.Routate;
-            tripCreatorServiceRequestModel.TripDate = createTripRestRequetModel.TripDate;
-            tripCreatorServiceRequestModel.AllowedMaxPassagerCount = createTripRestRequetModel.AllowedMaxPassagerCount;
-            tripCreatorServiceRequestModel.ExtraInformation = createTripRestRequetModel.ExtraInformation;
-
+    
+            var tripCreatorServiceRequestModel = _mapper.Map<TripCreatorServiceRequestModel>(createTripRestRequetModel);
             return _tripCreatorService.Execute(tripCreatorServiceRequestModel);
         }
 
-
+        /// <summary>
+        /// Find Trip and Trip Token
+        /// </summary>
+        /// <param name="createTripRestRequetModel"></param>
+        /// <returns></returns>
         [HttpPost("FindTrip")]
         public ServiceResult<List<FindTripServiceResponseModel>> FindTrip(FindTripRestRequestModel findTripApiRestRequestModel)
         {
-            FindTripServiceRequestModel findTripServiceRequestModel = new FindTripServiceRequestModel();
-            findTripServiceRequestModel.Routate = findTripApiRestRequestModel.Routate;
-            findTripServiceRequestModel.TripDate = findTripApiRestRequestModel.TripDate;
 
+            var findTripServiceRequestModel = _mapper.Map<FindTripServiceRequestModel>(findTripApiRestRequestModel);
             return _findTripSerive.Execute(findTripServiceRequestModel);
         }
 
-
-
-        [HttpPost("TripStatus")]
-        public ServiceResult<string> TripStatus(TripStatusRestRequestModel tripStatusRestRequestModel)
-        {
-          
-            TripStatusServiceRequestModel tripStatusServiceRequestModel = new TripStatusServiceRequestModel();
-            tripStatusServiceRequestModel.TripToken = tripStatusRestRequestModel.TripToken;
-            tripStatusServiceRequestModel.IsActive = tripStatusRestRequestModel.IsActive;
-            return _tripStatusService.Execute(tripStatusServiceRequestModel);
-        }
-
-
+        /// <summary>
+        /// Make a Reservation with TripToken. Triptoken can be found from "FindTrip" EndPoint
+        /// </summary>
+        /// <param name="tripStatusRestRequestModel"></param>
+        /// <returns></returns>
         [HttpPost("TripReservation")]
         public ServiceResult<TripReservationServiceResponseModel> TripReservation(TripReservationRestRequestModel tripStatusRestRequestModel)
         {
-            TripReservationServiceRequestModel tripReservationServiceRequestModel = new TripReservationServiceRequestModel();
-
-            tripReservationServiceRequestModel.PassangerNameAndSurname = tripStatusRestRequestModel.PassangerNameAndSurname;
-            tripReservationServiceRequestModel.TripToken = tripStatusRestRequestModel.TripToken;
-
-          return _tripreservationService.Execute(tripReservationServiceRequestModel);
+            var tripReservationServiceRequestModel = _mapper.Map<TripReservationServiceRequestModel>(tripStatusRestRequestModel);
+            return _tripreservationService.Execute(tripReservationServiceRequestModel);
         }
 
+        /// <summary>
+        /// Set Active or False to Trip Status. TripStatus can change via TripToken. This token can be generated via "CreateTripRequest" EndPoint
+        /// </summary>
+        /// <param name="tripStatusRestRequestModel"></param>
+        /// <returns></returns>
+        [HttpPost("TripStatus")]
+        public ServiceResult<string> TripStatus(TripStatusRestRequestModel tripStatusRestRequestModel)
+        {
 
-
-
+            var tripStatusServiceRequestModel = _mapper.Map<TripStatusServiceRequestModel>(tripStatusRestRequestModel);
+            return _tripStatusService.Execute(tripStatusServiceRequestModel);
+        }
     }
 }
