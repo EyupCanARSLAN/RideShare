@@ -1,3 +1,31 @@
+# Version2 New Features
+
+At this version, <b>ServiceAggrigators</b> added under Service Tier to aggregate per services function.
+
+I can give an example this situation  like this;
+
+In traditaional N Tier Architecture, a service consist of many public class.  In the below, you can see that
+TripService consist of many public and private class. 
+
+![image](https://github.com/EyupCanARSLAN/RideShare/assets/22656439/e00929de-8ffc-4edf-a64a-28b19c7696e4)
+
+This structure can be very complex when project begin to grow. 
+
+I implement Service Aggregator to fix this problem. According to this idea this service's each public class can be moved to separate class and cs file. 
+
+For example in the given example at above ; 
+
+I divided each public class to a different .cs file and I used "ITripServiceAggrigator" in controller side.
+
+![image](https://github.com/EyupCanARSLAN/RideShare/assets/22656439/4dae3bb8-fe50-4c97-a6c1-251c0f7c9784)
+<br><br>
+And I aggregate  this services under ServiceAggregator via interfaces and dependency injection like below.
+<br><br>
+![image](https://github.com/EyupCanARSLAN/RideShare/assets/22656439/c01c72ec-473d-4142-99fa-ffd610386ed8)
+
+
+
+
 # RideShare
 
 You can create database with Running <b>"Migration.bat"</b> that is under <b> "Domain" </b> Folder. Alternativly you can executre <b>"RideShare_EyupCan_Db.sql" </b>
