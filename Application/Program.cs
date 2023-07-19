@@ -1,8 +1,8 @@
-
-using Business.Interfaces;
-using Business.Services;
+using Business.Interfaces.ServiceAggrigatorInterface;
+using Business.Interfaces.ServiceInterface.TripServiceInterface;
+using Business.ServiceAggrigator;
+using Business.Services.TripService;
 using Domain;
-using Domain.Repository;
 using Domain.Repository.Interfaces;
 using Domain.Repository.Repos;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +34,7 @@ builder.Services.AddScoped<IFindTripService, FindTripService>();
 builder.Services.AddScoped<ITripCreatorService, TripCreatorService>();
 builder.Services.AddScoped<ITripReservationService, TripReservationService>();
 builder.Services.AddScoped<ITripStatusService, TripStatusService>();
+builder.Services.AddScoped<ITripServiceAggrigator, TripServiceAggrigator>();
 #endregion
 
 var app = builder.Build();

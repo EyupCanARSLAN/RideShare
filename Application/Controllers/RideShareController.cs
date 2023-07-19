@@ -1,36 +1,30 @@
 ﻿using Application.Models.RestModels.Request;
 using AutoMapper;
-using Business.Interfaces;
-using Business.Models.FindTripService.RequestModels;
-using Business.Models.FindTripService.ResponseModels;
-using Business.Models.TripCreatorService.RequestModel;
-using Business.Models.TripCreatorService.ResponseModel;
-using Business.Models.TripReservationService.RequestModel;
-using Business.Models.TripReservationService.ResponseModel;
-using Business.Models.TripStatusService.RequestModel;
+using Business.Interfaces.ServiceAggrigatorInterface;
+using Business.Model.ServiceModel.TripServiceModel.FindTripService.RequestModels;
+using Business.Model.ServiceModel.TripServiceModel.FindTripService.ResponseModels;
+using Business.Model.ServiceModel.TripServiceModel.TripCreatorService.RequestModel;
+using Business.Model.ServiceModel.TripServiceModel.TripCreatorService.ResponseModel;
+using Business.Model.ServiceModel.TripServiceModel.TripReservationService.RequestModel;
+using Business.Model.ServiceModel.TripServiceModel.TripReservationService.ResponseModel;
+using Business.Model.ServiceModel.TripServiceModel.TripStatusService.RequestModel;
 using Common;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace URLShortening.Controllers
+namespace Application.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class RideShareController : ControllerBase
 
     {
-        private readonly IFindTripService _findTripSerive;
-        private readonly ITripCreatorService _tripCreatorService;
-        private readonly ITripStatusService _tripStatusService;
-        private readonly ITripReservationService _tripreservationService;
+        private ITripServiceAggrigator _tripServiceAggrigator;
         private readonly IMapper _mapper;
  
-        public RideShareController(IFindTripService findTripSerive, ITripCreatorService tripCreatorService, ITripStatusService tripStatusService, ITripReservationService tripReservationService, IMapper mapper)
+        public RideShareController(ITripServiceAggrigator tripServiceAggrigator, IMapper mapper)
         {
-            _findTripSerive = findTripSerive;
-            _tripCreatorService = tripCreatorService;
-            _tripStatusService = tripStatusService;
-            _tripreservationService = tripReservationService;
+            _tripServiceAggrigator = tripServiceAggrigator;
             _mapper = mapper;
         }
 
@@ -45,7 +39,7 @@ namespace URLShortening.Controllers
         {
     
             var tripCreatorServiceRequestModel = _mapper.Map<TripCreatorServiceRequestModel>(createTripRestRequetModel);
-            return _tripCreatorService.Execute(tripCreatorServiceRequestModel);
+            return _tripServiceAggrigator.CreateTrip(tripCreatorServiceRequestModel);
         }
 
         /// <summary>
@@ -58,7 +52,7 @@ namespace URLShortening.Controllers
         {
 
             var findTripServiceRequestModel = _mapper.Map<FindTripServiceRequestModel>(findTripApiRestRequestModel);
-            return _findTripSerive.Execute(findTripServiceRequestModel);
+            return _tripServiceAggrigator.FindTrip(findTripServiceRequestModel);
         }
 
         /// <summary>
@@ -70,7 +64,7 @@ namespace URLShortening.Controllers
         public ServiceResult<TripReservationServiceResponseModel> TripReservation(TripReservationRestRequestModel tripStatusRestRequestModel)
         {
             var tripReservationServiceRequestModel = _mapper.Map<TripReservationServiceRequestModel>(tripStatusRestRequestModel);
-            return _tripreservationService.Execute(tripReservationServiceRequestModel);
+            return _tripServiceAggrigator.TripReservation(tripReservationServiceRequestModel);
         }
 
         /// <summary>
@@ -83,7 +77,7 @@ namespace URLShortening.Controllers
         {
 
             var tripStatusServiceRequestModel = _mapper.Map<TripStatusServiceRequestModel>(tripStatusRestRequestModel);
-            return _tripStatusService.Execute(tripStatusServiceRequestModel);
+            return _tripServiceAggrigator.TripStatusChange(tripStatusServiceRequestModel);
         }
     }
 }

@@ -11,4 +11,10 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Model\ServiceAggrigatorModel\" />
+    <Folder Include="Model\ServiceModel\UserServiceModel\" />
+    <Folder Include="Model\ServiceModel\PaymentServiceModel\" />
+  </ItemGroup>
+
 </Project>

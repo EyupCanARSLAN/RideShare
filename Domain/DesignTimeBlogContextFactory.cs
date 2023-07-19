@@ -29,7 +29,7 @@ namespace Blog.Data.EF
 
             var dbContextBuilder = new DbContextOptionsBuilder<RideShareDbContext>();
 
-            var connectionString = "Data Source=.\\SQLExpress;Initial Catalog=RideShareDb; TrustServerCertificate=True;Trusted_Connection=True;MultipleActiveResultSets=true";
+            var connectionString = "Data Source=.;Initial Catalog=RideShareDb; TrustServerCertificate=True;Trusted_Connection=True;MultipleActiveResultSets=true";
 
 
             dbContextBuilder.UseSqlServer(connectionString);
