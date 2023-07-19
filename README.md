@@ -1,3 +1,8 @@
+# Look at the given link at below to "How Can I aggregate seperated services like a single service"
+
+https://github.com/EyupCanARSLAN/RideShare/tree/feature/version2 
+
+
 # RideShare
 
 You can create database with Running <b>"Migration.bat"</b> that is under <b> "Domain" </b> Folder. Alternativly you can executre <b>"RideShare_EyupCan_Db.sql" </b>
@@ -6,6 +11,10 @@ You can find descriptions to use program and sample usage in <b>Swagger </b>. Al
 
 # Missing Part At This Application
 <ul>
+<li>Rest api can be write according to Rest Service standart.</li>
+<li>Comments blocks can be added</li>
+<li>Unit and Integration test can be added.</li>
+<li>Seperated service class can be aggregated (I applied this at version2 brach) </li>
 <li>System can be dockerized. SqlServer and Dotnet image used to works on linux via docker.</li>
 <li>String message can be moved to a resource file or can be designed as a constant variable in a seperate class.</li>
 <li>UnitOfWork and Generic Repository can be used to manage transiction and rollback scenerio.</li>
