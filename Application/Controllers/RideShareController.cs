@@ -10,7 +10,7 @@ using Business.Model.ServiceModel.TripServiceModel.TripReservationService.Respon
 using Business.Model.ServiceModel.TripServiceModel.TripStatusService.RequestModel;
 using Common;
 using Microsoft.AspNetCore.Mvc;
-
+ 
 
 namespace Application.Controllers
 {
